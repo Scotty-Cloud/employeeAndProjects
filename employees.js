@@ -251,20 +251,36 @@ let employees = [
 ];
 
 window.onload = function () {
-  // HTML element variables
-  const employeeSelect = document.getElementById("employeeSelect");
-  const employeeDataBody = document.getElementById("employeeDataBody");
+   // HTML element variables
+  const employeeSelect = document.querySelector("#employeeSelect");
+  const employeeDataBody = document.querySelector("#employeeDataBody");
 
-  //functions
-  // Populate the dropdown list with employee names
-  for (const employee of employees) {
-    const option = new Option(employee.name, employee.id);
+  // functions
+  function showEmployeeName(employee) {
+    const option = document.createElement("option");
+    option.value = employee.id;
+    option.innerText = employee.name;
     employeeSelect.appendChild(option);
   }
 
-  // Function to display employee data in the table
+  // populate the dropdown with employee names
+  function populateEmployeeSelect() {
+    for (const employee of employees) {
+      showEmployeeName(employee);
+    }
+  }
+
+  // display employee data in the table
   function displayEmployeeData(employee) {
+    // Clear existing rows
+    while (employeeDataBody.rows.length > 1) {
+      employeeDataBody.deleteRow(1);
+    }
+
+    // Add a new row for the employee data
     const row = employeeDataBody.insertRow();
+
+    // Add cells for each property of the employee object
     row.insertCell().innerText = employee.id;
     row.insertCell().innerText = employee.name;
     row.insertCell().innerText = employee.jobTitle;
@@ -273,11 +289,11 @@ window.onload = function () {
     row.insertCell().innerText = employee.wfhAddress;
     row.insertCell().innerText = employee.skillSet;
     row.insertCell().innerText = employee.projectsAssignedTo
-      .map((project) => project.name).join(", ");
+      .map((project) => project.name)
+      .join(", ");
   }
 
-  //event handling
-  // Add event listener to the dropdown
+  // Function to handle the dropdown change event
   function handleEmployeeSelectChange() {
     const selectedEmployeeId = this.value;
     const selectedEmployee = employees.find(
@@ -288,8 +304,10 @@ window.onload = function () {
     }
   }
 
+  /// event handling
   employeeSelect.onchange = handleEmployeeSelectChange;
-
-  //initial loading
-  handleEmployeeSelectChange();
+  
+  // initial loading
+  populateEmployeeSelect();
+  handleEmployeeSelectChange.call();
 };
