@@ -250,8 +250,70 @@ let employees = [
   },
 ];
 
+// window.onload = function () {
+//    // HTML element variables
+//   const employeeSelect = document.querySelector("#employeeSelect");
+//   const employeeDataBody = document.querySelector("#employeeDataBody");
+
+//   // functions
+//   function showEmployeeName(employee) {
+//     const option = document.createElement("option");
+//     option.value = employee.id;
+//     option.innerText = employee.name;
+//     employeeSelect.appendChild(option);
+//   }
+
+//   // populate the dropdown with employee names
+//   function populateEmployeeSelect() {
+//     for (const employee of employees) {
+//       showEmployeeName(employee);
+//     }
+//   }
+
+//   // display employee data in the table
+//   function displayEmployeeData(employee) {
+//     // Clear existing rows
+//     while (employeeDataBody.rows.length > 1) {
+//       employeeDataBody.deleteRow(1);
+//     }
+
+//     // Add a new row for the employee data
+//     const row = employeeDataBody.insertRow();
+
+//     // Add cells for each property of the employee object
+//     row.insertCell().innerText = employee.id;
+//     row.insertCell().innerText = employee.name;
+//     row.insertCell().innerText = employee.jobTitle;
+//     row.insertCell().innerText = employee.yearsAtCompany;
+//     row.insertCell().innerText = employee.email;
+//     row.insertCell().innerText = employee.wfhAddress;
+//     row.insertCell().innerText = employee.skillSet;
+//     row.insertCell().innerText = employee.projectsAssignedTo
+//       .map((project) => project.name)
+//       .join(", ");
+//   }
+
+//   // Function to handle the dropdown change event
+//   function handleEmployeeSelectChange() {
+//     const selectedEmployeeId = this.value;
+//     const selectedEmployee = employees.find(
+//       (employee) => employee.id === selectedEmployeeId
+//     );
+//     if (selectedEmployee) {
+//       displayEmployeeData(selectedEmployee);
+//     }
+//   }
+
+//   /// event handling
+//   employeeSelect.onchange = handleEmployeeSelectChange;
+  
+//   // initial loading
+//   populateEmployeeSelect();
+//   handleEmployeeSelectChange.call();
+// };
+
 window.onload = function () {
-   // HTML element variables
+  // HTML element variables
   const employeeSelect = document.querySelector("#employeeSelect");
   const employeeDataBody = document.querySelector("#employeeDataBody");
 
@@ -263,24 +325,15 @@ window.onload = function () {
     employeeSelect.appendChild(option);
   }
 
-  // populate the dropdown with employee names
   function populateEmployeeSelect() {
     for (const employee of employees) {
       showEmployeeName(employee);
     }
   }
 
-  // display employee data in the table
   function displayEmployeeData(employee) {
-    // Clear existing rows
-    while (employeeDataBody.rows.length > 1) {
-      employeeDataBody.deleteRow(1);
-    }
-
-    // Add a new row for the employee data
-    const row = employeeDataBody.insertRow();
-
-    // Add cells for each property of the employee object
+    employeeDataBody.innerHTML = ""; // clear the table body
+    const row = document.createElement("tr");
     row.insertCell().innerText = employee.id;
     row.insertCell().innerText = employee.name;
     row.insertCell().innerText = employee.jobTitle;
@@ -288,26 +341,22 @@ window.onload = function () {
     row.insertCell().innerText = employee.email;
     row.insertCell().innerText = employee.wfhAddress;
     row.insertCell().innerText = employee.skillSet;
-    row.insertCell().innerText = employee.projectsAssignedTo
-      .map((project) => project.name)
-      .join(", ");
+    row.insertCell().innerText = employee.projectsAssignedTo.map((project) => project.name).join(", ");
+    employeeDataBody.appendChild(row);
   }
 
-  // Function to handle the dropdown change event
   function handleEmployeeSelectChange() {
     const selectedEmployeeId = this.value;
-    const selectedEmployee = employees.find(
-      (employee) => employee.id === selectedEmployeeId
-    );
+    const selectedEmployee = employees.find((employee) => employee.id === selectedEmployeeId);
     if (selectedEmployee) {
       displayEmployeeData(selectedEmployee);
     }
   }
 
-  /// event handling
+  // event handling
   employeeSelect.onchange = handleEmployeeSelectChange;
-  
+
   // initial loading
   populateEmployeeSelect();
-  handleEmployeeSelectChange.call();
+  handleEmployeeSelectChange.call(employeeSelect, employeeSelect.options[0].value);
 };
