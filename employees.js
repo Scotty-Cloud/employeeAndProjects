@@ -273,7 +273,7 @@ window.onload = function () {
   }
 
   function displayEmployeeData(employee) {
-    employeeDataBody.innerHTML = ""; // clear the table body
+    employeeDataBody.innerText = ""; // clear the table body
     const row = document.createElement("tr");
     row.insertCell().innerText = employee.id;
     row.insertCell().innerText = employee.name;
